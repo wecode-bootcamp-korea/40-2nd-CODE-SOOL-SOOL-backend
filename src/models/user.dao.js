@@ -1,5 +1,4 @@
-const AppData = require("./dataSource");
-
+const AppData = require('./dataSource');
 const getUserById = async (userId) => {
   const [user] = await AppData.query(
     `
@@ -12,25 +11,20 @@ const getUserById = async (userId) => {
   );
   return user;
 };
-
 const signUp = async (email, kakaoId) => {
   return AppData.query(
     `
     INSERT INTO users (
-        
         email,
         kakao_id
       ) VALUES (?,?)`,
-
     [email, kakaoId]
   );
 };
-
 const getUserByEmail = async (email) => {
   const [users] = await AppData.query(
     `
         SELECT
-            
             u.email,
             u.kakao_id
         FROM users u
@@ -40,5 +34,4 @@ const getUserByEmail = async (email) => {
   );
   return users;
 };
-
 module.exports = { getUserById, signUp, getUserByEmail };
