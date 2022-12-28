@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
 
+
+##MYSQL DB
+db/schema.sql
+
 ### Node ###
 # Logs
 logs
@@ -119,6 +123,7 @@ dist
 
 # DynamoDB Local files
 .dynamodb/
+
 
 # TernJS port file
 .tern-port
