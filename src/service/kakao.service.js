@@ -20,7 +20,7 @@ const signInWithKakao = async (kakaoToken) => {
       await kakaoDao.signUp(name, email, kakaoId);
     }
 
-    return jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+    return jwt.sign({ userId: user }, process.env.JWT_SECRET);
   } catch (err) {
     throw err;
   }
