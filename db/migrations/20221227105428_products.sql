@@ -14,6 +14,7 @@ CREATE TABLE products(
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_product_types FOREIGN KEY (product_type_id) REFERENCES product_types(id),
     CONSTRAINT fk_sparkling_volumes FOREIGN KEY (sparkling_volume_id) REFERENCES sparkling_volumes(id)
+    
     )
 
 -- migrate:down

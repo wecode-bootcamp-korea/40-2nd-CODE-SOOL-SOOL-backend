@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { kakaoController } = require("../controllers");
+const { kakaoController } = require("../controllers/kakaoControllers");
 
 const router = express.Router();
 

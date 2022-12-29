@@ -8,8 +8,10 @@ const tokenRequired = async (req, res, next) => {
     return next(error);
   }
   const userId = await jwt.verify(authorization, process.env.JWT_SECRET).userId;
+
   const user = await userDao.getUserById(userId);
-  if (user) {
+
+  if (!user) {
     const error = new Error("User Not existed !");
     error.statusCode = 404;
     return next(error);
@@ -18,12 +20,3 @@ const tokenRequired = async (req, res, next) => {
   next();
 };
 module.exports = { tokenRequired };
-
-
-
-
-
-
-
-
-
