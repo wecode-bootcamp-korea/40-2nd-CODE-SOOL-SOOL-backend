@@ -3,14 +3,6 @@ const axios = require("axios");
 const { createApp } = require("../app");
 const { appDataSource } = require("../src/models/data.source");
 
-const mock = jest.fn();
-
-mock.mockReturnValue(42);
-mock();
-
-mock.mockReturnValue(43);
-mock();
-
 describe("kakao SignIn", () => {
   let app;
 

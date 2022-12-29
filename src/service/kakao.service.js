@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const kakaoDao = require("../models/kakao.dao");
+const userDao = require("../models/user.dao");
 const axios = require("axios");
 
 const signInWithKakao = async (kakaoToken) => {
@@ -13,15 +13,15 @@ const signInWithKakao = async (kakaoToken) => {
     const email = result.data.kakao_account.email;
     const kakaoId = result.data.id;
 
-    const user = await kakaoDao.getUserByEmail(email);
+    const user = await userDao.getUserByEmail(email);
 
     if (!user) {
-      await kakaoDao.signUp(email, kakaoId);
+      await userDao.signUp(email, kakaoId);
     }
 
     return jwt.sign({ userId: user }, process.env.JWT_SECRET);
   } catch (err) {
-    throw err;
+    throw new Error("Undified User!!");
   }
 };
 
