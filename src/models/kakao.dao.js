@@ -1,7 +1,7 @@
-const appDataSource = require("./dataSource");
+const AppData = require("./dataSource");
 
 const signUp = async (name, email, kakaoId) => {
-  return appDataSource.query(
+  return AppData.query(
     `
     INSERT INTO users (
         name,
@@ -15,7 +15,7 @@ const signUp = async (name, email, kakaoId) => {
 
 const getUserByEmail = async (email) => {
   console.log("dao-email: ", email);
-  const [user] = await appDataSource.query(
+  const [user] = await AppData.query(
     `
         SELECT
             u.name,
