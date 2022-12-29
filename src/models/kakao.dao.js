@@ -1,15 +1,15 @@
 const AppData = require("./dataSource");
 
-const signUp = async (name, email, kakaoId) => {
+const signUp = async (email, kakaoId) => {
   return AppData.query(
     `
     INSERT INTO users (
-        name,
+        
         email,
         kakao_id
-      ) VALUES (?,?,?)`,
+      ) VALUES (?,?)`,
 
-    [name, email, kakaoId]
+    [email, kakaoId]
   );
 };
 
@@ -18,7 +18,7 @@ const getUserByEmail = async (email) => {
   const [user] = await AppData.query(
     `
         SELECT
-            u.name,
+            
             u.email,
             u.kakao_id
         FROM users u

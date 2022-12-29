@@ -10,14 +10,13 @@ const signInWithKakao = async (kakaoToken) => {
       },
     });
     console.log(result);
-    const name = result.data.kakao_account.profile.nickname;
     const email = result.data.kakao_account.email;
     const kakaoId = result.data.id;
 
     const user = await kakaoDao.getUserByEmail(email);
 
     if (!user) {
-      await kakaoDao.signUp(name, email, kakaoId);
+      await kakaoDao.signUp(email, kakaoId);
     }
 
     return jwt.sign({ userId: user }, process.env.JWT_SECRET);
