@@ -5,7 +5,7 @@ const { productRouter } = require("./product.router");
 
 const router = express.Router();
 
-router.use("/auth", kakaoRouter);
 router.use("/products", productRouter);
+router.use("/auth", kakaoRouter);
 
 module.exports = router;
