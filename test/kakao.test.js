@@ -1,21 +1,21 @@
 const request = require("supertest");
 const axios = require("axios");
 const { createApp } = require("../app");
-const { appDataSource } = require("../src/models/data.source");
+const { AppData } = require("../src/models/dataSource");
 
 describe("kakao SignIn", () => {
   let app;
 
   beforeAll(async () => {
     app = createApp();
-    await appDataSource.initialize();
+    await AppData.initialize();
   });
 
   afterAll(async () => {
-    await appDataSource.query(`SET FOREIGN_KEY_CHECKS = 0`);
-    await appDataSource.query(`TRUNCATE users`);
-    await appDataSource.query(`SET FOREIGN_KEY_CHECKS = 1`);
-    await appDataSource.destroy();
+    await AppData.query(`SET FOREIGN_KEY_CHECKS = 0`);
+    await AppData.query(`TRUNCATE users`);
+    await AppData.query(`SET FOREIGN_KEY_CHECKS = 1`);
+    await AppData.destroy();
   });
 
   test("SUCCESS: kakao signin", async () => {
@@ -40,7 +40,7 @@ describe("kakao SignIn", () => {
       },
     });
     await request(app)
-      .post("/auth/signIn")
+      .post("/auth/signin")
       .set({
         Authorization: "Bearer accessToken",
       })
@@ -69,6 +69,6 @@ describe("kakao SignIn", () => {
       },
     });
 
-    await request(app).get("/auth/signIn").expect(400);
+    await request(app).get("/auth/signin").expect(400);
   });
 });
