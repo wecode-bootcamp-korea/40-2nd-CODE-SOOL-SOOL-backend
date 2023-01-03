@@ -1,7 +1,7 @@
 const express = require("express");
 
-const { kakaoRouter } = require("./kakao.router");
-const { productRouter } = require("./product.router");
+const kakaoRouter = require("./kakaoRouter");
+const productRouter = require("./productRouter");
 
 const router = express.Router();
 

@@ -59,8 +59,17 @@ const getList = async (data) => {
   return await productDao.getProductByFilterOptions(typeQuery,alcoholQuery,sparklingQuery,priceQuery)
 };
 
+const getDetailByProductId = async (productId) => {
+  return productDao.getDetailByProductId(productId);
+};
+
+const getProductByName = async (productName) => {
+  return productDao.getProductByName(productName);
+};
 
 module.exports = {
   getAllProducts,
-  getList
+  getList,
+  getDetailByProductId,
+  getProductByName
 };
