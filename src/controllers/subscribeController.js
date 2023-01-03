@@ -1,10 +1,13 @@
 const subscribeService = require("../service/subscribeService");
 
 const createSubscription = async (req, res) => {
+  
   try {
     const { address, totalPrice, quantity } = req.body;
 
-    const userId = req.user.id;
+    const userId = req.user.kakao_id
+console.log(userId)
+// { kakao_id: '2605070115', email: 'huckleberryjeon@gmail.com' }
 
     await subscribeService.createSubscription(
       address,

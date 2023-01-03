@@ -1,10 +1,10 @@
 const { productDao } = require('../models');
 
+
 const getAllProducts = async () => {
   const productListData = await productDao.getAllProducts();
     return productListData;
 };
-
 
 const getList = async (data) => {
   const getSingletypeByQuery = async (data) => {
@@ -57,7 +57,22 @@ const getList = async (data) => {
   const priceQuery = await getpriceByQuery(data.price)
 
   return await productDao.getProductByFilterOptions(typeQuery,alcoholQuery,sparklingQuery,priceQuery)
-};
+}; 
+
+const makeCartList = async (data,kakaoId) => {
+  const addCartList = await productDao.makeCartList(data,kakaoId)
+  return addCartList;
+}
+
+const updateCartList = async (data,kakaoId) => {
+  const updateCartList = await productDao.deleteCartList(data,kakaoId)
+  return updateCartList;
+}
+
+const getCartList = async (data) => {
+  const getCartList = await productDao.cartList(data)
+  return getCartList
+}
 
 const getDetailByProductId = async (productId) => {
   return productDao.getDetailByProductId(productId);
@@ -71,5 +86,8 @@ module.exports = {
   getAllProducts,
   getList,
   getDetailByProductId,
-  getProductByName
+  getProductByName,
+  makeCartList,
+  updateCartList,
+  getCartList
 };
