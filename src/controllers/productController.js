@@ -38,9 +38,29 @@ const getDetailByProductId = async (req, res) => {
   }
 };
 
+const makeCart = catchAsync(async (req, res, next) => {
+  const data = req.body
+  const cart = await productService.makeCartList(data)
+  return res.status(201).json(cart)
+})
+
+const updateCart = catchAsync(async (req, res, next) => {
+    const data = req.body
+    const cart = await productService.updateCartList(data)
+    return res.status(200).json(cart)
+})
+
+const getCartList = catchAsync(async (req, res, next) => {
+  const data = req.user
+  const cart = await productService.getCartList(data)
+  return res.status(200).json(cart)
+})
 module.exports = {
   getListByType,
   getAllProducts,
   getProductByName,
   getDetailByProductId,
+  makeCart,
+  updateCart,
+  getCartList,
 };
