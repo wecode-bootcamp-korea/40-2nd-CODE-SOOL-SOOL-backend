@@ -11,6 +11,7 @@ const getListByType = catchAsync(async (req, res, next) => {
   const list = await productService.getList(data);
   return res.status(200).json(list);
 });
+
 const getProductByName = async (req, res) => {
   try {
     const { productName } = req.query;
@@ -38,9 +39,32 @@ const getDetailByProductId = async (req, res) => {
   }
 };
 
+const makeCart = catchAsync(async (req, res, next) => {
+  const data = req.body
+  console.log(req.user)
+  const kakaoId = req.user
+  const cart = await productService.makeCartList(data,kakaoId)
+  return res.status(201).json(cart)
+})
+
+const updateCart = catchAsync(async (req, res, next) => {
+  const data = req.body
+  const kakaoId = req.user
+    const cart = await productService.updateCartList(data,kakaoId)
+    return res.status(200).json(cart)
+})
+
+const getCartList = catchAsync(async (req, res, next) => {
+  const data = req.user
+  const cart = await productService.getCartList(data)
+  return res.status(200).json(cart)
+})
 module.exports = {
   getListByType,
   getAllProducts,
   getProductByName,
   getDetailByProductId,
+  makeCart,
+  updateCart,
+  getCartList,
 };

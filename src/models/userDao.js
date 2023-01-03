@@ -35,4 +35,32 @@ const getUserByEmail = async (email) => {
   );
   return users;
 };
-module.exports = { getUserById, signUp, getUserByEmail };
+
+const getLoginedUserId = async (userId) => {
+
+  const result = await AppData.query(
+    `
+        SELECT 
+            id,
+            email,
+            password
+        FROM users
+        WHERE id=?`,
+      [userId]
+    );
+	  return result[0]
+  }
+
+const getUserBykakaoId = async (kakaoId) => {
+  const result = await AppData.query(
+    `SELECT 
+      kakao_id,
+      email
+      FROM users
+      WHERE kakao_id = ?`,
+    [kakaoId]
+  );
+  console.log(result)
+  return result[0]
+}
+module.exports = { getUserById, signUp, getUserByEmail, getLoginedUserId, getUserBykakaoId };
