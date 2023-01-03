@@ -15,7 +15,8 @@ const getAllProducts = async () => {
           sparkling_volume_id
         FROM products
         JOIN product_types
-       ON products.product_type_id= product_types.id`)
+       ON products.product_type_id= product_types.id`
+    )
     return ListAll;
   } catch (err) {
     const error = new Error("DATABASE ERROR!")
@@ -91,10 +92,74 @@ const getDetailByProductId = async (productId) => {
   );
 };
 
+  const makeCartList = async (data) => {
+    const { kakao_id, product_id, quantity } = data
+    console.log(data)
+    const addCartList = await AppData.query(
+      `INSERT INTO carts(
+      kakao_id, 
+      product_id, 
+      quantity)
+      VALUES (?,?,?)`,
+      [kakao_id, product_id, quantity]
+    )
 
-module.exports = {
-  getAllProducts,
-  getProductByFilterOptions,
-  getProductByName,
-  getDetailByProductId
+    const totalPrice = await AppData.query(
+      `SELECT (price*quantity) as sum
+        FROM carts
+        JOIN products 
+      ON carts.product_id = products.id
+      WHERE kakao_id = ?
+      && product_id = ?`,
+      [kakao_id, product_id]
+    )
+    const priceData = totalPrice[0].sum
+  
+    const insertTotalPrice = await AppData.query(
+      `UPDATE carts
+          SET total_price = ?
+          WHERE kakao_id = ?
+          &&product_id =?`,
+      [priceData, kakao_id, product_id]
+    )
+    
+  }
+
+const cartList = async (data) => {
+  const { kakao_id } = data
+  console.log(kakao_id)
+    const sumPrice = await AppData.query(
+      `SELECT 
+        sum(total_price)
+        FROM carts
+        WHERE kakao_id=?`, [kakao_id]
+    )
+  
+    const all = await AppData.query(
+      `SELECT * 
+        FROM carts
+        WHERE kakao_id=?`, [kakao_id]
+    )
+  return sumPrice.concat(all)
+  }
+
+  const deleteCartList = async (data) => {
+    const { kakao_id, product_id } = data
+    const cartList = await AppData.query(
+      `DELETE FROM carts
+     WHERE kakao_id = ?
+     && product_id =?`
+      , [kakao_id, product_id]
+    )
+  }
+
+
+  module.exports = {
+    getAllProducts,
+    getProductByFilterOptions,
+    getProductByName,
+    getDetailByProductId,
+    makeCartList,
+    deleteCartList,
+    cartList
   };

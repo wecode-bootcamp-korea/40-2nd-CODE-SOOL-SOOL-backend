@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const userDao = require('../models/user.dao');
+const userDao = require('../models/userDao');
 const axios = require('axios');
 
 const signInWithKakao = async (kakaoToken) => {
@@ -20,4 +20,18 @@ const signInWithKakao = async (kakaoToken) => {
     throw new Error('Undefined User!!');
   }
 };
-module.exports = { signInWithKakao };
+
+const getUserById = async (userId) => {
+  return await userDao.getLoginedUserId(userId)
+}
+
+const getUserBykakaoId = async (kakaoId) => {
+  return await userDao.getUserBykakaoId(kakaoId)
+}
+
+module.exports =
+{
+  signInWithKakao,
+  getUserById,
+  getUserBykakaoId
+};
