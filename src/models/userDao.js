@@ -1,4 +1,4 @@
-const AppData = require("./dataSource");
+const AppData = require('./dataSource');
 const getUserById = async (userId) => {
   const [user] = await AppData.query(
     `
@@ -25,7 +25,10 @@ const getUserByEmail = async (email) => {
   const [users] = await AppData.query(
     `
         SELECT
+<<<<<<< HEAD
+=======
             u.id,
+>>>>>>> 262516e (asdasdasD)
             u.email,
             u.kakao_id
         FROM users u

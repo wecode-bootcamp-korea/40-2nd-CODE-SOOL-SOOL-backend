@@ -13,7 +13,7 @@ const tokenRequired = async (req, res, next) => {
     return next(error);
   }
 
-  const userId = await jwt.verify(authorization, process.env.JWT_SECRET).userId;
+  const userId = await jwt.verify(authorization, process.env.JWT_SECRET).Id;
   const user = await userDao.getUserById(userId);
   if (!user) {
     const error = new Error("User Not existed !");
@@ -37,8 +37,8 @@ const loginRequired = async (req, res, next) => {
 
   // 2) Verification token
 	const decoded = await promisify(jwt.verify)(accessToken, process.env.JWT_SECRET);
-  console.log(decoded.Id)
-  // { Id: 1, iat: 1672928482 }
+  const decodedId = decoded.userId
+
   // 3) Check if user still exists
   const user = await kakaoService.getUserBykakaoId(decoded.Id)
 

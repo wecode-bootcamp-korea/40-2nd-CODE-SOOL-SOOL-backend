@@ -139,8 +139,8 @@ const makeCartList = async (data,kakaoId) => {
   }
 }
 
-  const cartList = async (data) => {
-    const { kakao_id } = data
+const cartList = async (data) => {
+  const { kakao_id } = data
     const sumPrice = await AppData.query(
       `SELECT 
           sum(total_price)
