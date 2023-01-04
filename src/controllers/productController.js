@@ -1,5 +1,5 @@
-const { productService } = require('../service');
-const { catchAsync } = require('../utils/error');
+const { productService } = require("../service");
+const { catchAsync } = require("../utils/error");
 
 const getAllProducts = catchAsync(async (req, res) => {
   const productListData = await productService.getAllProducts();
@@ -7,18 +7,13 @@ const getAllProducts = catchAsync(async (req, res) => {
 });
 
 const getListByType = catchAsync(async (req, res, next) => {
-  const data = req.query
+  const data = req.query;
   const list = await productService.getList(data);
   return res.status(200).json(list);
-}
-)
+});
 const getProductByName = async (req, res) => {
   try {
     const { productName } = req.query;
-    console.log(req.query)
-    if (!productName) {
-      throw new Error("Key Error");
-    }
 
     const result = await productService.getProductByName(productName);
 
@@ -27,7 +22,6 @@ const getProductByName = async (req, res) => {
     res.status(err.statusCode || 400).json({ message: err.message });
   }
 };
-
 
 const getDetailByProductId = async (req, res) => {
   try {
@@ -48,5 +42,5 @@ module.exports = {
   getListByType,
   getAllProducts,
   getProductByName,
-  getDetailByProductId
+  getDetailByProductId,
 };

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const userDao = require("../models/user.dao");
+const userDao = require("../models/userDao");
 const tokenRequired = async (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization) {
@@ -9,7 +9,7 @@ const tokenRequired = async (req, res, next) => {
   }
   const userId = await jwt.verify(authorization, process.env.JWT_SECRET).userId;
   const user = await userDao.getUserById(userId);
-  if (user) {
+  if (!user) {
     const error = new Error("User Not existed !");
     error.statusCode = 404;
     return next(error);
@@ -18,12 +18,3 @@ const tokenRequired = async (req, res, next) => {
   next();
 };
 module.exports = { tokenRequired };
-
-
-
-
-
-
-
-
-
