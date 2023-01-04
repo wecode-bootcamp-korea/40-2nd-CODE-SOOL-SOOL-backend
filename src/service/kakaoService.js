@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const userDao = require('../models/user.dao');
+const userDao = require('../models/userDao');
 const axios = require('axios');
 
 const signInWithKakao = async (kakaoToken) => {
