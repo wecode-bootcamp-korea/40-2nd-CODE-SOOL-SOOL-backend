@@ -1,10 +1,10 @@
-const jwt = require('jsonwebtoken');
-const userDao = require('../models/user.dao');
-const axios = require('axios');
+const jwt = require("jsonwebtoken");
+const userDao = require("../models/userDao");
+const axios = require("axios");
 
 const signInWithKakao = async (kakaoToken) => {
   try {
-    const result = await axios.get('https://kapi.kakao.com/v2/user/me', {
+    const result = await axios.get("https://kapi.kakao.com/v2/user/me", {
       headers: {
         Authorization: `Bearer ${kakaoToken}`,
       },
@@ -15,9 +15,9 @@ const signInWithKakao = async (kakaoToken) => {
     if (!user) {
       await userDao.signUp(email, kakaoId);
     }
-    return jwt.sign({ userId: user }, process.env.JWT_SECRET);
+    return jwt.sign({ Id: user.id }, process.env.JWT_SECRET);
   } catch (err) {
-    throw new Error('Undefined User!!');
+    throw new Error("Undefined User!!");
   }
 };
 module.exports = { signInWithKakao };
