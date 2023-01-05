@@ -8,12 +8,14 @@ const createSubscription = async (address, totalPrice, quantity, userId) => {
           address,
           total_price,
           quantity
-          
+    
         )VALUES(?,?,?,?)
           
         `,
     [userId, address, totalPrice, quantity]
   );
+
+  
 };
 
 module.exports = { createSubscription };

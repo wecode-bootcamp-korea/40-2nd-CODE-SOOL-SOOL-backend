@@ -15,7 +15,7 @@ const signInWithKakao = async (kakaoToken) => {
     if (!user) {
       await userDao.signUp(email, kakaoId);
     }
-    return jwt.sign({ Id: user.id }, process.env.JWT_SECRET);
+    return jwt.sign({Id: user.id }, process.env.JWT_SECRET);
   } catch (err) {
     throw new Error("Undefined User!!");
   }

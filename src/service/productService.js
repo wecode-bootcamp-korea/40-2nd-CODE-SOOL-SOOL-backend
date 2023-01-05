@@ -59,13 +59,13 @@ const getList = async (data) => {
   return await productDao.getProductByFilterOptions(typeQuery,alcoholQuery,sparklingQuery,priceQuery)
 }; 
 
-const makeCartList = async (data) => {
-  const addCartList = await productDao.makeCartList(data)
+const makeCartList = async (data,kakaoId) => {
+  const addCartList = await productDao.makeCartList(data,kakaoId)
   return addCartList;
 }
 
-const updateCartList = async (data) => {
-  const updateCartList = await productDao.deleteCartList(data)
+const updateCartList = async (data,kakaoId) => {
+  const updateCartList = await productDao.deleteCartList(data,kakaoId)
   return updateCartList;
 }
 

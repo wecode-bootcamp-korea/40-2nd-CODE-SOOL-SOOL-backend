@@ -4,6 +4,7 @@ const getAllProducts = async () => {
   try {
     const ListAll = await AppData.query(
       `SELECT 
+          products.id,
           name,
           price,
           capacity,
@@ -29,6 +30,7 @@ const getProductByFilterOptions = async (typeQuery, alcoholQuery, sparklingQuery
   try {
     const sortedList = await AppData.query(
       `SELECT
+            id,
             name,
             price,
             capacity,
@@ -77,6 +79,7 @@ const getDetailByProductId = async (productId) => {
   return await AppData.query(
     `
        SELECT
+       p.id,
        p.name,
        p.capacity,
        p.image_url,
@@ -92,8 +95,9 @@ const getDetailByProductId = async (productId) => {
   );
 };
 
-const makeCartList = async (data) => {
-  const { kakao_id, product_id, quantity } = data
+const makeCartList = async (data,kakaoId) => {
+  const { product_id, quantity } = data
+  const { kakao_id } = kakaoId
   const queryRunner = AppData.createQueryRunner();
   await queryRunner.connect()
   try {
@@ -137,14 +141,12 @@ const makeCartList = async (data) => {
 
   const cartList = async (data) => {
     const { kakao_id } = data
-    console.log(kakao_id)
     const sumPrice = await AppData.query(
       `SELECT 
           sum(total_price)
           FROM carts
         WHERE kakao_id=?`, [kakao_id]
     )
-    
     const all = await AppData.query(
       `
         SELECT
@@ -161,8 +163,9 @@ const makeCartList = async (data) => {
     return sumPrice.concat(all)
   }
 
-  const deleteCartList = async (data) => {
-    const { kakao_id, product_id } = data
+  const deleteCartList = async (data,kakaoId) => {
+    const { product_id } = data
+    const { kakao_id } = kakaoId
     const queryRunner = AppData.createQueryRunner();
     await queryRunner.connect()
     try {
@@ -177,7 +180,7 @@ const makeCartList = async (data) => {
     await queryRunner.commitTransaction()
   }
   catch (err) {
-    await queryRunner.rollbackTransactrsion()
+    await queryRunner.rollbackTransaction()
   } finally {
     await queryRunner.release()
   }
