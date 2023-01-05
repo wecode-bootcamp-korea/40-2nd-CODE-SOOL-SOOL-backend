@@ -1,8 +1,8 @@
 const express = require("express");
 const subscribeController = require("../controllers/subscribeController");
-const { tokenRequired } = require("../utils/auth.js");
+const { tokenRequired, loginRequired } = require("../utils/auth.js");
 const router = express.Router();
 
-router.post("", tokenRequired, subscribeController.createSubscription);
+router.post("", loginRequired, subscribeController.createSubscription);
 
 module.exports = router;

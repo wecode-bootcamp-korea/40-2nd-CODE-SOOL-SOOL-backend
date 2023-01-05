@@ -11,11 +11,12 @@ const signInWithKakao = async (kakaoToken) => {
     });
     const email = result.data.kakao_account.email;
     const kakaoId = result.data.id;
+    console.log(kakaoId)
     const user = await userDao.getUserByEmail(email);
     if (!user) {
       await userDao.signUp(email, kakaoId);
     }
-    return jwt.sign({Id: user.id }, process.env.JWT_SECRET);
+    return jwt.sign({Id:kakaoId }, process.env.JWT_SECRET);
   } catch (err) {
     throw new Error("Undefined User!!");
   }

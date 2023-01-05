@@ -38,6 +38,7 @@ const getDetailByProductId = async (req, res) => {
 
 const makeCart = catchAsync(async (req, res, next) => {
   const data = req.body
+  console.log(req.user)
   const kakaoId = req.user
   const cart = await productService.makeCartList(data,kakaoId)
   return res.status(201).json(cart)
