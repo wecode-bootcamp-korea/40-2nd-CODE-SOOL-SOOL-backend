@@ -127,7 +127,6 @@ const getDetailByProductId = async (productId) => {
 
 const cartList = async (data) => {
   const { kakao_id } = data
-  console.log(kakao_id)
     const sumPrice = await AppData.query(
       `SELECT 
         sum(total_price)
