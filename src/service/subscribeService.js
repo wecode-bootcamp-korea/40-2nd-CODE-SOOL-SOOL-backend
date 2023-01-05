@@ -1,4 +1,4 @@
-const subscribeDao = require("../models/subscribeDao");
+const subscribeDao = require("../models/subscribeDao").default;
 
 const createSubscription = async (address, totalPrice, quantity, userId) => {
   return subscribeDao.createSubscription(address, totalPrice, quantity, userId);

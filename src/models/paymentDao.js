@@ -30,11 +30,11 @@ const paymentList = async (data) => {
     [kakao_id]
   )
 
-  const deleteCartList = await AppData.query(
-    `TRUNCATE carts
-    WHERE kakao_id = ?`,
-    [kakao_id]
-  )
+  // const deleteCartList = await AppData.query(
+  //   `TRUNCATE carts
+  //   WHERE kakao_id = ?`,
+  //   [kakao_id]
+  // )
 }
 
 module.exports = { paymentList }
