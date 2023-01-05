@@ -4,6 +4,7 @@ const getAllProducts = async () => {
   try {
     const ListAll = await AppData.query(
       `SELECT 
+          products.id,
           name,
           price,
           capacity,
@@ -29,6 +30,7 @@ const getProductByFilterOptions = async (typeQuery, alcoholQuery, sparklingQuery
   try {
     const sortedList = await AppData.query(
       `SELECT
+            id,
             name,
             price,
             capacity,
@@ -77,6 +79,7 @@ const getDetailByProductId = async (productId) => {
   return await AppData.query(
     `
        SELECT
+       p.id,
        p.name,
        p.capacity,
        p.image_url,
@@ -92,19 +95,24 @@ const getDetailByProductId = async (productId) => {
   );
 };
 
-  const makeCartList = async (data) => {
-    const { kakao_id, product_id, quantity } = data
-    console.log(data)
-    const addCartList = await AppData.query(
+const makeCartList = async (data,kakaoId) => {
+  const { product_id, quantity } = data
+  const { kakao_id } = kakaoId
+  const queryRunner = AppData.createQueryRunner();
+  await queryRunner.connect()
+  try {
+    await queryRunner.startTransaction()
+
+    const addCartList = await queryRunner.query(
       `INSERT INTO carts(
-      kakao_id, 
-      product_id, 
-      quantity)
+        kakao_id, 
+        product_id, 
+        quantity)
       VALUES (?,?,?)`,
       [kakao_id, product_id, quantity]
     )
 
-    const totalPrice = await AppData.query(
+    const totalPrice = await queryRunner.query(
       `SELECT (price*quantity) as sum
         FROM carts
         JOIN products 
@@ -115,42 +123,68 @@ const getDetailByProductId = async (productId) => {
     )
     const priceData = totalPrice[0].sum
   
-    const insertTotalPrice = await AppData.query(
+    const insertTotalPrice = await queryRunner.query(
       `UPDATE carts
           SET total_price = ?
           WHERE kakao_id = ?
           &&product_id =?`,
       [priceData, kakao_id, product_id]
     )
-    
+    await queryRunner.commitTransaction()
   }
+  catch (err) {
+    await queryRunner.rollbackTransactrsion()
+  } finally {
+    await queryRunner.release()
+  }
+}
 
-const cartList = async (data) => {
-  const { kakao_id } = data
+  const cartList = async (data) => {
+    const { kakao_id } = data
     const sumPrice = await AppData.query(
       `SELECT 
-        sum(total_price)
-        FROM carts
+          sum(total_price)
+          FROM carts
         WHERE kakao_id=?`, [kakao_id]
     )
-  
     const all = await AppData.query(
-      `SELECT * 
-        FROM carts
-        WHERE kakao_id=?`, [kakao_id]
+      `
+        SELECT
+          c.kakao_id,
+          c.product_id,
+          c.quantity,
+          c.total_price,
+          p.image_url,
+          p.capacity
+        FROM carts as c
+        JOIN products p ON p.id = c.product_id
+        && kakao_id=?`, [kakao_id]
     )
-  return sumPrice.concat(all)
+    return sumPrice.concat(all)
   }
 
-  const deleteCartList = async (data) => {
-    const { kakao_id, product_id } = data
+  const deleteCartList = async (data,kakaoId) => {
+    const { product_id } = data
+    const { kakao_id } = kakaoId
+    const queryRunner = AppData.createQueryRunner();
+    await queryRunner.connect()
+    try {
+      await queryRunner.startTransaction()
+  
     const cartList = await AppData.query(
       `DELETE FROM carts
      WHERE kakao_id = ?
      && product_id =?`
       , [kakao_id, product_id]
     )
+    await queryRunner.commitTransaction()
   }
+  catch (err) {
+    await queryRunner.rollbackTransaction()
+  } finally {
+    await queryRunner.release()
+  }
+}
 
 
   module.exports = {

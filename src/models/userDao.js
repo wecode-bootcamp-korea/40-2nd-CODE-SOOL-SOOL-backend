@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const AppData = require('./dataSource');
+=======
+const AppData = require("./dataSource");
+>>>>>>> feature/cart
 const getUserById = async (userId) => {
   const [user] = await AppData.query(
     `
@@ -25,6 +29,10 @@ const getUserByEmail = async (email) => {
   const [users] = await AppData.query(
     `
         SELECT
+<<<<<<< HEAD
+=======
+            u.id,
+>>>>>>> feature/cart
             u.email,
             u.kakao_id
         FROM users u
@@ -62,4 +70,8 @@ const getUserBykakaoId = async (kakaoId) => {
   console.log(result)
   return result[0]
 }
+<<<<<<< HEAD
 module.exports = { getUserById, signUp, getUserByEmail, getLoginedUserId, getUserBykakaoId };
+=======
+module.exports = { getUserById, signUp, getUserByEmail, getLoginedUserId, getUserBykakaoId };
+>>>>>>> feature/cart
