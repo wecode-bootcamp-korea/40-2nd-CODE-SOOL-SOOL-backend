@@ -38,10 +38,11 @@ const loginRequired = async (req, res, next) => {
 
   // 2) Verification token
 	const decoded = await promisify(jwt.verify)(accessToken, process.env.JWT_SECRET);
-  const decodedId = decoded.userId
-  
+  console.log(decoded.Id)
+  // { Id: 1, iat: 1672928482 }
   // 3) Check if user still exists
-	const user = await kakaoService.getUserBykakaoId(decodedId.kakao_id)
+  const user = await kakaoService.getUserBykakaoId(decoded.Id)
+
 	
 	if (!user) {
 		const error = new Error('USER_DOES_NOT_EXIST')
@@ -51,6 +52,7 @@ const loginRequired = async (req, res, next) => {
 
   // 4) GRANT ACCESS
   req.user = user;
+  // console.log(req.user)
   next();
 }
 

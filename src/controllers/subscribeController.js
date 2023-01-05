@@ -4,9 +4,10 @@ const createSubscription = async (req, res) => {
   
   try {
     const { address, totalPrice, quantity } = req.body;
-console.log(address)
-    const userId = req.user
 
+    const userId = req.user.kakao_id
+console.log(userId)
+// { kakao_id: '2605070115', email: 'huckleberryjeon@gmail.com' }
 
     await subscribeService.createSubscription(
       address,
