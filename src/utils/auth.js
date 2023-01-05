@@ -7,7 +7,7 @@ const tokenRequired = async (req, res, next) => {
     error.statusCode = 401;
     return next(error);
   }
-  const userId = await jwt.verify(authorization, process.env.JWT_SECRET).userId;
+  const userId = await jwt.verify(authorization, process.env.JWT_SECRET).Id;
   const user = await userDao.getUserById(userId);
   if (!user) {
     const error = new Error("User Not existed !");
