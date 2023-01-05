@@ -37,8 +37,6 @@ const loginRequired = async (req, res, next) => {
 
   // 2) Verification token
 	const decoded = await promisify(jwt.verify)(accessToken, process.env.JWT_SECRET);
-  console.log(decoded.Id)
-  // { Id: 1, iat: 1672928482 }
   // 3) Check if user still exists
   const user = await kakaoService.getUserBykakaoId(decoded.Id)
 
