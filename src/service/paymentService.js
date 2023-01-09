@@ -1,9 +1,9 @@
 const { paymentDao } = require('../models');
 
 
-const paymentList = async () => {
-  const data = await paymentDao.paymentList();
-    return data;
+const paymentList = async (address, kakaoId) => {
+  const paymentData = await paymentDao.payment(address,kakaoId);
+    return paymentData;
 };
 
-module.exports = {paymentList}
+module.exports = { paymentList }

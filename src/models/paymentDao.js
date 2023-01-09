@@ -1,18 +1,16 @@
 const AppData = require('./dataSource');
 
 
-const paymentList = async (data) => {
-  const { kakao_id, address } = data
-  console.log(kakao_id)
-  console.log(data)
+const payment = async (address,kakaoId) => {
   const orderList = await AppData.query(
     `INSERT INTO orders
       (
         kakao_id,
         address,
-        order_status_id)
+        order_status_id
+        )
     VALUES (?,?,2)`,
-    [kakao_id, address]
+    [kakaoId, address]
   )
 
   const orderItemsList = await AppData.query(
@@ -27,14 +25,13 @@ const paymentList = async (data) => {
              total_price
       FROM carts
       WHERE kakao_id = ?`,
-    [kakao_id]
+    [kakaoId]
   )
 
-  // const deleteCartList = await AppData.query(
-  //   `TRUNCATE carts
-  //   WHERE kakao_id = ?`,
-  //   [kakao_id]
-  // )
+  const deleteCartList = await AppData.query(
+    `DELETE FROM carts WHERE kakao_id = ?`,
+    [kakaoId]
+  )
 }
 
-module.exports = { paymentList }
+module.exports = { payment }
